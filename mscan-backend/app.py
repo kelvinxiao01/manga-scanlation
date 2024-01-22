@@ -57,20 +57,10 @@ def extract_text(image):
         return None
 
 def translate_text(text):
-    # Implement communication with DeepL API here
-    # data = {
-    #     'auth_key': DEEPL_AUTH_KEY,
-    #     'text': text,
-    #     'target_lang': 'EN'  # Assuming translation to English
-    # }
-    # response = requests.post(DEEPL_API_URL, data=data)
-    # if response.status_code != 200:
-    #     return None
-    # return response.json()['translations'][0]['text']
+    # Initiliaze deepL
     translator = deepl.Translator(DEEPL_AUTH_KEY)
-
     result = translator.translate_text(text, target_lang="EN-US")
-    print(result.text)  # "Bonjour, le monde !"
+    print(result.text)  
     return(result.text)
 
 if __name__ == '__main__':
