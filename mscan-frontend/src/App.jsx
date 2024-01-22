@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
   const [translation, setTranslation] = useState("");
+  const [imgSrc, setImgSrc] = useState(null);
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
+    const imgUrl = URL.createObjectURL(file);
+    setImgSrc(imgUrl);
     const formData = new FormData();
     formData.append("file", file);
 
@@ -18,9 +21,24 @@ function App() {
     setTranslation(data.translation);
   };
 
+  useEffect(() => {
+    return () => {
+      if (imgSrc) {
+        URL.revokeObjectURL(imgSrc);
+      }
+    };
+  }, [imgSrc]);
+
   return (
     <div>
       <input type="file" onChange={handleUpload} />
+      {imgSrc && (
+        <img
+          src={imgSrc}
+          alt="Uploaded img"
+          style={{ maxWidth: "100%", maxHeight: "400px" }}
+        />
+      )}
       <p>Translation: {translation}</p>
     </div>
   );
